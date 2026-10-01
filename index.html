@@ -271,8 +271,12 @@
   </div>
 
   <div class="footer-row">
+    <button class="small-btn" id="firstHalfBtn">① 前半15</button>
+    <button class="small-btn" id="secondHalfBtn">② 後半15</button>
+  </div>
+  <div class="footer-row">
     <button class="small-btn" id="shuffleBtn">🔀 シャッフルして最初から</button>
-    <button class="small-btn" id="restartBtn">🔁 最初から</button>
+    <button class="small-btn" id="restartBtn">🔁 最初から（全30）</button>
   </div>
   <div class="src-note">音声：教科書付属CD音源より切り出し</div>
 </div>
@@ -504,6 +508,25 @@ function rebuildCard() {
   bindRefs();
 }
 
+function startRange(startIdx, endIdx) {
+  order = words.map((_, i) => i).slice(startIdx, endIdx);
+  current = 0;
+  score = 0;
+  reviewMode = false;
+  wrongIndices.clear();
+  flaggedIndices.clear();
+  rebuildCard();
+  loadWord();
+}
+
+document.getElementById("firstHalfBtn").addEventListener("click", () => {
+  const half = Math.ceil(words.length / 2);
+  startRange(0, half);
+});
+document.getElementById("secondHalfBtn").addEventListener("click", () => {
+  const half = Math.ceil(words.length / 2);
+  startRange(half, words.length);
+});
 document.getElementById("shuffleBtn").addEventListener("click", () => {
   order = shuffle(words.map((_, i) => i));
   current = 0;
